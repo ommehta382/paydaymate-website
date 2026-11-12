@@ -1,0 +1,683 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Payday Mate: commission tracking for Australian sales teams</title>
+<meta name="description" content="Payday Mate is commission tracking for Australian sales teams. Reps see what they've earned as deals close, managers get out of spreadsheets, and super on commission gets paid on time.">
+<meta name="theme-color" content="#0F3D2E">
+<meta property="og:title" content="Payday Mate: commission tracking for Australian sales teams">
+<meta property="og:description" content="Payday Mate is commission tracking for Australian sales teams. Reps see what they've earned as deals close, managers get out of spreadsheets, and super on commission gets paid on time.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://paydaymate.com.au/">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230F3D2E'/%3E%3Ctext x='8' y='43' font-family='Arial,Helvetica,sans-serif' font-weight='700' font-size='32' letter-spacing='-2' fill='%23fff'%3Epm%3C/text%3E%3Ccircle cx='52' cy='40' r='4' fill='%239BE8B0'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --green:#0F3D2E;
+  --green-deep:#0A2D22;
+  --green-soft:#1B5240;
+  --mint:#9BE8B0;
+  --mint-wash:#E4F6EA;
+  --paper:#F3F7F4;
+  --white:#FFFFFF;
+  --ink:#0F2A20;
+  --muted:#4F6A5E;
+  --line:#D3E1D8;
+  --on-green-muted:#A9C4B8;
+  --display:'Space Grotesk',system-ui,sans-serif;
+  --body:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+  --wrap:1180px;
+  --gutter:clamp(20px,5vw,56px);
+  --ease:cubic-bezier(.22,.8,.24,1);
+}
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.6;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+img,svg{display:block}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--mint);outline-offset:3px;border-radius:4px}
+.wrap{max-width:var(--wrap);margin:0 auto;padding:0 var(--gutter)}
+.visually-hidden{position:absolute!important;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.skip{position:absolute;left:12px;top:-60px;z-index:50;background:var(--mint);color:var(--green-deep);padding:10px 14px;border-radius:8px;font-weight:600;text-decoration:none}
+.skip:focus{top:12px}
+
+/* ---------- brand marks ---------- */
+.wordmark{display:inline-flex;align-items:flex-end;gap:5px;text-decoration:none;font-family:var(--display);font-weight:700;letter-spacing:-.035em;line-height:1}
+.wordmark .dot{width:.26em;height:.26em;border-radius:50%;background:var(--mint);margin-bottom:.09em;flex:none}
+.monogram{display:inline-flex;align-items:flex-end;gap:.07em;font-family:var(--display);font-weight:700;letter-spacing:-.06em;line-height:.8}
+.monogram .dot{width:.19em;height:.19em;border-radius:50%;background:var(--mint);margin-bottom:.02em}
+
+/* ---------- header ---------- */
+.site-head{position:fixed;inset:0 0 auto 0;z-index:20;transition:background .35s var(--ease),box-shadow .35s var(--ease),backdrop-filter .35s}
+.site-head .wrap{display:flex;align-items:center;justify-content:space-between;gap:24px;height:84px;transition:height .35s var(--ease)}
+.site-head.scrolled{background:rgba(10,45,34,.86);backdrop-filter:saturate(1.4) blur(14px);-webkit-backdrop-filter:saturate(1.4) blur(14px);box-shadow:0 1px 0 rgba(155,232,176,.12)}
+.site-head.scrolled .wrap{height:68px}
+.site-head .wordmark{color:var(--white);font-size:23px}
+.nav{display:flex;align-items:center;gap:6px}
+.nav a{font-size:15px;font-weight:500;color:#D6E6DE;text-decoration:none;padding:8px 12px;border-radius:8px;transition:color .2s,background .2s}
+.nav a:hover{color:var(--white);background:rgba(255,255,255,.06)}
+.nav a[aria-current=page]{color:var(--white)}
+.nav a[aria-current=page]::after{content:"";display:block;height:2px;background:var(--mint);border-radius:2px;margin-top:2px}
+.nav .head-cta{margin-left:10px;color:var(--green-deep);background:var(--mint);padding:9px 16px;border-radius:999px;font-weight:600}
+.nav .head-cta:hover{background:#B2F0C3;color:var(--green-deep)}
+.menu-btn{display:none;background:none;border:0;color:var(--white);width:44px;height:44px;border-radius:10px;cursor:pointer;align-items:center;justify-content:center}
+.menu-btn span{display:block;width:20px;height:2px;background:currentColor;border-radius:2px;position:relative;transition:background .2s}
+.menu-btn span::before,.menu-btn span::after{content:"";position:absolute;left:0;width:20px;height:2px;background:currentColor;border-radius:2px;transition:transform .3s var(--ease)}
+.menu-btn span::before{top:-6px}.menu-btn span::after{top:6px}
+.menu-open .menu-btn span{background:transparent}
+.menu-open .menu-btn span::before{transform:translateY(6px) rotate(45deg)}
+.menu-open .menu-btn span::after{transform:translateY(-6px) rotate(-45deg)}
+
+/* ---------- hero (shared) ---------- */
+.hero{background:var(--green);color:var(--white);padding:160px 0 0;position:relative;overflow:hidden}
+.hero::before{content:"";position:absolute;inset:0;background:radial-gradient(900px 520px at 85% 15%,rgba(155,232,176,.10),transparent 60%);pointer-events:none}
+.hero h1{font-family:var(--display);font-weight:700;font-size:clamp(46px,7.6vw,108px);line-height:.95;letter-spacing:-.04em;margin:0 0 clamp(36px,4.5vw,64px);max-width:14ch;position:relative}
+.hero .lede{font-size:clamp(18px,1.6vw,20px);line-height:1.55;color:#D6E6DE;max-width:33em;margin:0 0 40px}
+.hero-grid{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr);gap:clamp(40px,6vw,88px);align-items:start;position:relative}
+.hero-copy{padding-bottom:120px;padding-top:6px}
+.hero.simple{padding-bottom:clamp(80px,10vw,128px)}
+.hero.simple h1{max-width:16ch;margin-bottom:28px}
+.hero.simple .lede{margin-bottom:0}
+.note{font-size:14px;color:var(--on-green-muted);margin:14px 0 0}
+
+/* headline line reveal: once, on load */
+.js .reveal-lines .ln{display:block;overflow:hidden;padding-bottom:.06em;margin-bottom:-.06em}
+.js .reveal-lines .ln > span{display:block;transform:translateY(105%);transition:transform .9s var(--ease)}
+.js .reveal-lines.in .ln > span{transform:none}
+.js .reveal-lines.in .ln:nth-child(2) > span{transition-delay:.08s}
+.js .reveal-lines.in .ln:nth-child(3) > span{transition-delay:.16s}
+
+/* ---------- waitlist form ---------- */
+.waitlist{display:flex;gap:10px;max-width:520px;flex-wrap:wrap}
+.waitlist input[type=email]{flex:1 1 240px;min-width:0;height:56px;padding:0 20px;border-radius:12px;border:1px solid rgba(255,255,255,.22);background:rgba(255,255,255,.07);color:var(--white);font:inherit;font-size:16px;transition:border-color .2s,background .2s}
+.waitlist input[type=email]::placeholder{color:#8FB0A2}
+.waitlist input[type=email]:hover{border-color:rgba(255,255,255,.4)}
+.waitlist input[type=email]:focus{outline:none;border-color:var(--mint);background:rgba(255,255,255,.1)}
+.btn{display:inline-flex;align-items:center;justify-content:center;height:56px;padding:0 26px;border:0;border-radius:12px;background:var(--mint);color:var(--green-deep);font:600 16px/1 var(--body);cursor:pointer;white-space:nowrap;text-decoration:none;transition:transform .15s,background .2s}
+.btn:hover{background:#B2F0C3}
+.btn:active{transform:translateY(1px)}
+.btn[disabled]{opacity:.7;cursor:progress}
+.btn.ghost{background:transparent;color:var(--green);border:1.5px solid var(--green)}
+.btn.ghost:hover{background:var(--green);color:var(--white)}
+.form-msg{flex-basis:100%;font-size:15px;margin:4px 0 0}
+.form-msg.err{color:#FFC9B8}
+.waitlist.done{display:block}
+.done-msg{display:flex;gap:14px;align-items:flex-start;padding:18px 20px;border-radius:12px;background:rgba(155,232,176,.12);border:1px solid rgba(155,232,176,.4);max-width:520px;animation:pop .5s var(--ease)}
+.done-msg svg{flex:none;margin-top:2px}
+.done-msg strong{display:block;font-weight:600;color:var(--white)}
+.done-msg span{color:#C8DDD3;font-size:15px}
+@keyframes pop{from{opacity:0;transform:scale(.97)}to{opacity:1;transform:none}}
+
+/* ---------- statement (home hero) ---------- */
+.statement-wrap{position:relative;align-self:end;margin-top:-8px}
+.statement{background:var(--white);color:var(--ink);border-radius:14px 14px 0 0;padding:30px 32px 36px;box-shadow:0 40px 80px -20px rgba(0,0,0,.45);font-feature-settings:"tnum" 1,"lnum" 1}
+.st-head{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;padding-bottom:20px;border-bottom:1px solid var(--line)}
+.st-title{font-family:var(--display);font-weight:700;font-size:20px;letter-spacing:-.02em;line-height:1.2}
+.st-sub{font-size:14px;color:var(--muted);margin-top:4px}
+.tag{font-size:12px;font-weight:500;color:var(--green);background:var(--mint-wash);border-radius:999px;padding:5px 10px;white-space:nowrap}
+.st-lines{list-style:none;margin:0;padding:8px 0 0}
+.st-line{display:grid;grid-template-columns:1fr auto;gap:4px 16px;padding:14px 0;border-bottom:1px dashed var(--line)}
+.st-line .what{font-weight:500;font-size:15px}
+.st-line .how{grid-column:1;font-size:13.5px;color:var(--muted)}
+.st-line .amt{grid-row:1/span 2;grid-column:2;align-self:center;font-weight:600;font-size:16px}
+.st-line.neg .amt{color:#9A3B1E}
+.st-total{display:flex;justify-content:space-between;align-items:baseline;gap:12px;padding:22px 0 6px}
+.st-total .lbl{font-weight:600}
+.st-total .val{font-family:var(--display);font-weight:700;font-size:40px;letter-spacing:-.03em;color:var(--green)}
+.st-super{margin-top:16px;display:flex;justify-content:space-between;align-items:center;gap:16px;background:var(--green);color:var(--white);border-radius:10px;padding:14px 18px;font-size:14.5px}
+.st-super b{font-weight:600}
+.st-super .when{color:var(--mint);font-weight:500;white-space:nowrap}
+.js .st-line,.js .st-total,.js .st-super{opacity:0;transform:translateY(8px)}
+.js .run .st-line,.js .run .st-total,.js .run .st-super{opacity:1;transform:none;transition:opacity .5s ease,transform .5s ease}
+.js .run .st-line:nth-child(1){transition-delay:.35s}
+.js .run .st-line:nth-child(2){transition-delay:.55s}
+.js .run .st-line:nth-child(3){transition-delay:.75s}
+.js .run .st-line:nth-child(4){transition-delay:.95s}
+.js .run .st-total{transition-delay:1.15s}
+.js .run .st-super{transition-delay:1.7s}
+
+/* ---------- section basics ---------- */
+.section{padding:clamp(88px,11vw,140px) 0}
+.section.white{background:var(--white);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.h2{font-family:var(--display);font-weight:700;font-size:clamp(34px,4.4vw,54px);line-height:1.04;letter-spacing:-.03em;margin:0;max-width:16ch}
+.intro{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(24px,5vw,72px);align-items:end;margin-bottom:clamp(48px,6vw,80px)}
+.intro p{margin:0;color:var(--muted);font-size:18px;max-width:32em}
+.body-lg{color:var(--muted);font-size:18px;max-width:32em}
+.text-link{color:var(--green);font-weight:600;text-decoration-thickness:1.5px;text-underline-offset:4px}
+
+/* roles */
+.roles{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(28px,4vw,56px)}
+.role{position:relative;padding-top:28px}
+.role::before{content:"";position:absolute;left:0;top:0;height:2px;width:100%;background:var(--green);transform-origin:left;transition:transform 1s var(--ease)}
+.js .role::before{transform:scaleX(0)}
+.js .roles.in .role::before{transform:none}
+.js .roles.in .role:nth-child(2)::before{transition-delay:.12s}
+.js .roles.in .role:nth-child(3)::before{transition-delay:.24s}
+.role h3{font-family:var(--display);font-weight:700;font-size:24px;letter-spacing:-.02em;margin:0 0 6px}
+.role .pain{color:var(--muted);margin:0 0 18px;font-size:16px}
+.role .fix{margin:0;font-size:16.5px}
+
+/* ---------- how a pay run works (scroll-driven) ---------- */
+.how{position:relative;background:var(--green-deep);color:var(--white)}
+.how-track{height:calc(100vh + 5 * 70vh)}
+.how-sticky{position:sticky;top:0;height:100vh;display:flex;align-items:center;overflow:hidden}
+.how-sticky .wrap{width:100%;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(40px,6vw,96px);align-items:center}
+.how .h2{color:var(--white);margin-bottom:36px}
+.steps{list-style:none;margin:0;padding:0 0 0 28px;position:relative}
+.steps::before,.steps::after{content:"";position:absolute;left:5px;top:22px;bottom:22px;width:2px;border-radius:2px;background:rgba(255,255,255,.14)}
+.steps::after{background:var(--mint);transform-origin:top;transform:scaleY(var(--p,0))}
+.step{position:relative;padding:12px 0;color:rgba(255,255,255,.42);transition:color .4s var(--ease)}
+.step::before{content:"";position:absolute;left:-28px;top:20px;width:12px;height:12px;border-radius:50%;background:var(--green-deep);border:2px solid rgba(255,255,255,.3);transition:background .3s,border-color .3s,transform .3s var(--ease)}
+.step h3{margin:0;font-family:var(--display);font-weight:700;font-size:clamp(20px,2vw,24px);letter-spacing:-.02em;line-height:1.3}
+.step p{margin:0;max-height:0;opacity:0;overflow:hidden;font-size:16px;color:#C8DDD3;transition:max-height .5s var(--ease),opacity .4s,margin .4s}
+.step.done{color:rgba(255,255,255,.7)}
+.step.done::before{background:var(--mint);border-color:var(--mint)}
+.step.active{color:var(--white)}
+.step.active::before{background:var(--mint);border-color:var(--mint);transform:scale(1.25);box-shadow:0 0 0 6px rgba(155,232,176,.18)}
+.step.active p{max-height:6em;opacity:1;margin-top:6px}
+
+.ticket{background:var(--white);color:var(--ink);border-radius:18px;padding:28px 28px 24px;box-shadow:0 50px 100px -30px rgba(0,0,0,.6);font-feature-settings:"tnum" 1,"lnum" 1;max-width:500px;justify-self:end;width:100%}
+.tk-head{display:flex;justify-content:space-between;align-items:center;gap:12px}
+.tk-head .st-title{font-size:19px}
+.status{font-size:12.5px;font-weight:600;border-radius:999px;padding:6px 11px;background:var(--mint-wash);color:var(--green);white-space:nowrap;transition:background .3s,color .3s}
+.status.final{background:var(--green);color:var(--mint)}
+.tk-rows{list-style:none;margin:20px 0 0;padding:0;border-top:1px solid var(--line)}
+.tk-row{display:flex;justify-content:space-between;align-items:center;gap:16px;padding:0 0;border-bottom:1px dashed var(--line);max-height:0;opacity:0;overflow:hidden;transition:max-height .55s var(--ease),opacity .45s,padding .55s var(--ease)}
+.tk-row.show{max-height:80px;opacity:1;padding:15px 0}
+.tk-row .k{font-size:15px;color:var(--muted)}
+.tk-row .v{font-weight:600;font-size:15.5px;text-align:right}
+.tk-row .v small{display:block;font-weight:500;color:var(--muted);font-size:13px}
+.tk-row.hl .v{color:var(--green)}
+.tk-foot{display:flex;align-items:center;gap:14px;margin-top:20px}
+.meter{flex:1;height:6px;border-radius:6px;background:var(--mint-wash);overflow:hidden}
+.meter i{display:block;height:100%;background:var(--green);border-radius:6px;transform-origin:left;transform:scaleX(var(--p,0))}
+.tk-foot span{font-size:13px;color:var(--muted);white-space:nowrap;min-width:6.5em;text-align:right}
+
+/* ---------- payday super teaser ---------- */
+.teaser{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(40px,6vw,96px);align-items:center}
+.big-seven{font-family:var(--display);font-weight:700;font-size:clamp(120px,18vw,240px);line-height:.8;letter-spacing:-.06em;color:var(--green);margin:0;display:flex;align-items:flex-end;gap:18px}
+.big-seven small{font-size:clamp(18px,1.7vw,22px);letter-spacing:-.01em;line-height:1.25;font-weight:500;color:var(--muted);max-width:9em;padding-bottom:.9em}
+.teaser .actions{margin-top:32px;display:flex;gap:12px;flex-wrap:wrap}
+
+/* features */
+.building{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);gap:clamp(40px,6vw,96px)}
+.building .side p{color:var(--muted);font-size:18px;margin:24px 0 0;max-width:24em}
+.features{list-style:none;margin:0;padding:0}
+.features li{display:grid;grid-template-columns:28px 1fr;gap:4px 16px;padding:24px 0;border-bottom:1px solid var(--line)}
+.features li:first-child{padding-top:6px}
+.features svg{grid-row:1/span 2;margin-top:3px}
+.features h3{margin:0;font-size:18px;font-weight:600;letter-spacing:-.01em}
+.features p{margin:0;color:var(--muted);font-size:16px}
+
+/* closing */
+.closing{background:var(--green);color:var(--white);position:relative;overflow:hidden}
+.closing::after{content:"";position:absolute;right:-120px;bottom:-160px;width:520px;height:520px;border-radius:50%;background:radial-gradient(circle,rgba(155,232,176,.16),transparent 65%);pointer-events:none}
+.closing-grid{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:48px;align-items:end;position:relative}
+.closing .h2{max-width:13ch;color:var(--white)}
+.closing p.lede{color:#D6E6DE;font-size:18px;max-width:30em;margin:22px 0 36px}
+.closing .monogram{font-size:clamp(120px,16vw,220px);color:rgba(255,255,255,.95)}
+.js .closing .monogram .dot{transform:translateY(-1.4em) scale(.6);opacity:0;transition:transform .9s cubic-bezier(.34,1.56,.64,1),opacity .3s}
+.js .closing.in .monogram .dot{transform:none;opacity:1;transition-delay:.25s}
+
+/* ---------- calculator ---------- */
+.calc{background:var(--green);color:var(--white);border-radius:20px;padding:clamp(26px,3.4vw,40px);font-feature-settings:"tnum" 1,"lnum" 1}
+.hero .calc{background:var(--green-deep);box-shadow:0 40px 80px -30px rgba(0,0,0,.5);border:1px solid rgba(155,232,176,.14)}
+.calc-inputs{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.field label{display:block;font-size:14px;font-weight:500;color:var(--on-green-muted);margin-bottom:8px}
+.field .control{position:relative}
+.field input{width:100%;height:54px;border-radius:10px;border:1px solid rgba(255,255,255,.22);background:rgba(255,255,255,.07);color:var(--white);font:500 17px var(--body);padding:0 16px;color-scheme:dark}
+.field input:focus{outline:none;border-color:var(--mint);background:rgba(255,255,255,.1)}
+.field .prefix{position:absolute;left:16px;top:50%;transform:translateY(-50%);color:var(--on-green-muted);font-weight:500;pointer-events:none}
+.field .prefix + input{padding-left:32px}
+.calc-out{margin-top:34px;padding-top:28px;border-top:1px solid rgba(255,255,255,.16)}
+.due-lbl{font-size:15px;color:var(--on-green-muted);margin:0 0 6px}
+.due{font-family:var(--display);font-weight:700;font-size:clamp(40px,5.4vw,64px);line-height:1;letter-spacing:-.035em;color:var(--white);margin:0}
+.due-in{color:var(--mint);font-size:16px;margin:12px 0 0}
+.calc-rows{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:28px 0 0}
+.calc-rows div{background:rgba(255,255,255,.06);border-radius:10px;padding:14px 16px}
+.calc-rows dt{font-size:13.5px;color:var(--on-green-muted)}
+.calc-rows dd{margin:4px 0 0;font-weight:600;font-size:20px}
+.days{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;margin-top:22px}
+.days span{height:36px;border-radius:8px;background:rgba(255,255,255,.06);display:flex;align-items:center;justify-content:center;font-size:12.5px;font-weight:600;color:var(--on-green-muted);transition:background .3s,color .3s}
+.days span.on{background:var(--mint);color:var(--green-deep)}
+
+/* ---------- payday super page ---------- */
+.compare{display:grid;grid-template-columns:1fr 1fr;border:1px solid var(--line);border-radius:18px;overflow:hidden;background:var(--white)}
+.compare > div{padding:clamp(24px,3vw,40px)}
+.compare .now{background:var(--green);color:var(--white)}
+.compare h3{margin:0 0 20px;font-family:var(--display);font-size:22px;letter-spacing:-.02em}
+.compare dl{margin:0;display:grid;gap:18px}
+.compare dt{font-size:14px;color:var(--muted)}
+.compare .now dt{color:var(--on-green-muted)}
+.compare dd{margin:2px 0 0;font-size:18px;font-weight:600}
+.rules{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 clamp(32px,5vw,72px);margin-top:clamp(40px,5vw,64px)}
+.rule{padding:28px 0;border-top:1px solid var(--line)}
+.rule h3{margin:0 0 8px;font-size:19px;font-weight:600;letter-spacing:-.01em}
+.rule p{margin:0;color:var(--muted);font-size:16.5px}
+.callout{display:flex;gap:20px;align-items:flex-start;background:var(--mint-wash);border-radius:16px;padding:clamp(22px,3vw,32px);margin-top:clamp(40px,5vw,56px)}
+.callout h3{margin:0 0 6px;font-size:19px}
+.callout p{margin:0;color:var(--ink)}
+.sources{font-size:14px;color:var(--muted);margin-top:40px}
+.sources a{color:var(--green)}
+
+/* ---------- about page ---------- */
+.story{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);gap:clamp(40px,6vw,96px)}
+.story .prose p{font-size:19px;line-height:1.65;margin:0 0 22px;max-width:34em}
+.story .prose p:first-child{font-family:var(--display);font-size:clamp(24px,2.4vw,30px);line-height:1.3;letter-spacing:-.02em;font-weight:500;color:var(--ink)}
+.founders{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(20px,3vw,32px)}
+.founder{background:var(--white);border:1px solid var(--line);border-radius:18px;padding:28px;display:flex;gap:20px;align-items:flex-start}
+.avatar{width:72px;height:72px;border-radius:50%;background:var(--green);color:var(--mint);display:flex;align-items:center;justify-content:center;font-family:var(--display);font-weight:700;font-size:28px;letter-spacing:-.04em;flex:none}
+.founder h3{margin:0;font-family:var(--display);font-size:22px;letter-spacing:-.02em}
+.founder p{margin:2px 0 0;color:var(--muted);font-size:15.5px}
+.beliefs{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(28px,4vw,56px)}
+.beliefs li{border-top:2px solid var(--green);padding-top:24px}
+.beliefs h3{margin:0 0 8px;font-family:var(--display);font-size:22px;letter-spacing:-.02em;line-height:1.2}
+.beliefs p{margin:0;color:var(--muted)}
+
+/* ---------- footer ---------- */
+footer{background:var(--green-deep);color:var(--on-green-muted);font-size:14px}
+.foot-grid{display:flex;justify-content:space-between;align-items:center;gap:20px;padding-top:36px;padding-bottom:36px;flex-wrap:wrap}
+footer .wordmark{color:var(--white);font-size:19px}
+.foot-links{display:flex;gap:22px;flex-wrap:wrap}
+.foot-links a{color:#D6E6DE;text-decoration:none}
+.foot-links a:hover{color:var(--white);text-decoration:underline;text-underline-offset:4px}
+
+/* ---------- responsive ---------- */
+@media (max-width:960px){
+  .hero-grid,.building,.intro,.closing-grid,.teaser,.story{grid-template-columns:1fr}
+  .hero-copy{padding-bottom:56px}
+  .statement-wrap{max-width:560px}
+  .roles,.beliefs{grid-template-columns:1fr;gap:40px}
+  .closing .monogram{display:none}
+  .intro{align-items:start}
+  .rules{grid-template-columns:1fr}
+  .founders{grid-template-columns:1fr}
+  /* how: compact sticky layout */
+  .how-sticky{align-items:flex-start}
+  .how-sticky .wrap{grid-template-columns:1fr;gap:20px;align-content:start;padding-top:88px}
+  .how .h2{margin-bottom:12px;font-size:26px}
+  .ticket{justify-self:stretch;max-width:none;padding:16px 18px;order:-1;border-radius:14px}
+  .tk-rows{margin-top:12px}
+  .tk-row.show{padding:7px 0}
+  .tk-row .k,.tk-row .v{font-size:13.5px}
+  .tk-row .v small{font-size:12px}
+  .tk-foot{margin-top:12px}
+  .step p{font-size:15px}
+  .step{display:none;padding:0}
+  .step.active{display:block}
+  .steps{padding-left:0}
+  .steps::before,.steps::after,.step::before{display:none}
+  .step.active p{max-height:none}
+  .step-count{display:block!important}
+}
+@media (max-width:820px){
+  .nav{position:fixed;inset:0 0 auto 0;top:0;flex-direction:column;align-items:stretch;gap:2px;background:var(--green-deep);padding:84px var(--gutter) 28px;transform:translateY(-102%);transition:transform .45s var(--ease);z-index:-1;box-shadow:0 30px 60px -20px rgba(0,0,0,.5)}
+  .menu-open .nav{transform:none}
+  .nav a{font-size:20px;padding:14px 4px;border-bottom:1px solid rgba(255,255,255,.08);border-radius:0}
+  .nav a[aria-current=page]::after{display:none}
+  .nav a[aria-current=page]{color:var(--mint)}
+  .nav .head-cta{margin:18px 0 0;text-align:center;border-radius:12px;padding:16px;border-bottom:0}
+  .menu-btn{display:inline-flex}
+  .compare{grid-template-columns:1fr}
+}
+@media (max-width:560px){
+  body{font-size:16px}
+  .hero{padding-top:124px}
+  .statement{padding:24px 20px 28px}
+  .st-total .val{font-size:32px}
+  .st-super{flex-direction:column;align-items:flex-start;gap:4px}
+  .calc-inputs,.calc-rows{grid-template-columns:1fr}
+  .btn{flex:1 1 100%}
+  .waitlist .btn{width:100%}
+  .big-seven{flex-direction:column;align-items:flex-start}
+  .big-seven small{padding-bottom:0}
+  .founder{flex-direction:column;align-items:flex-start}
+}
+.step-count{display:none;font-size:13px;color:var(--on-green-muted);margin-bottom:6px}
+
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{transition-duration:.01ms!important;transition-delay:0s!important;animation:none!important}
+  .js .st-line,.js .st-total,.js .st-super{opacity:1!important;transform:none!important}
+  .js .reveal-lines .ln > span{transform:none!important}
+}
+
+</style>
+<script>document.documentElement.classList.add('js')</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="site-head">
+  <div class="wrap">
+    <a class="wordmark" href="index.html" aria-label="Payday Mate home">Payday Mate<span class="dot" aria-hidden="true"></span></a>
+    <button class="menu-btn" type="button" aria-expanded="false" aria-controls="nav" aria-label="Open menu"><span></span></button>
+    <nav class="nav" id="nav" aria-label="Main">
+      <a href="index.html" aria-current="page">Home</a>
+      <a href="index.html#how">How it works</a>
+      <a href="payday-super.html">Payday Super</a>
+      <a href="about.html">About</a>
+      <a class="head-cta" href="#join">Join the waitlist</a>
+    </nav>
+  </div>
+</header>
+<main id="main">
+  <div class="hero">
+    <div class="wrap">
+      <h1 class="reveal-lines"><span class="ln"><span>Know what you&rsquo;ve</span></span><span class="ln"><span>earned before</span></span><span class="ln"><span>payday.</span></span></h1>
+    </div>
+    <div class="wrap hero-grid">
+      <div class="hero-copy">
+        <p class="lede">Payday Mate is commission tracking for Australian sales teams. Reps see their numbers as deals close, managers get out of spreadsheets, and super on commission gets paid on time.</p>
+        <form class="waitlist" data-source="home hero" novalidate>
+          <label class="visually-hidden" for="email-hero">Work email</label>
+          <input id="email-hero" type="email" name="email" placeholder="Your work email" autocomplete="email" required>
+          <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" class="visually-hidden" aria-hidden="true">
+          <button class="btn" type="submit">Join the waitlist</button>
+          <p class="form-msg" role="status" aria-live="polite"></p>
+        </form>
+        <p class="note">We're building it now. Teams on the waitlist get early access and a say in what we build.</p>
+      </div>
+      <div class="statement-wrap" aria-label="Example commission statement">
+        <div class="statement" id="statement">
+          <div class="st-head">
+            <div><div class="st-title">Jess Taylor</div><div class="st-sub">Commission for November</div></div>
+            <span class="tag">Example</span>
+          </div>
+          <ul class="st-lines">
+            <li class="st-line"><span class="what">Harbour Logistics placement</span><span class="how">$18,400 fee at 12%</span><span class="amt">$2,208.00</span></li>
+            <li class="st-line"><span class="what">Northside Dental placement</span><span class="how">$9,750 fee at 12%</span><span class="amt">$1,170.00</span></li>
+            <li class="st-line"><span class="what">Tier bonus</span><span class="how">Billed over $25,000 this month</span><span class="amt">$500.00</span></li>
+            <li class="st-line neg"><span class="what">Coastline Retail clawback</span><span class="how">Candidate left in guarantee period</span><span class="amt">&minus;$640.00</span></li>
+          </ul>
+          <div class="st-total"><span class="lbl">Commission this pay run</span><span class="val" id="st-total">$3,238.00</span></div>
+          <div class="st-super"><span>Super on commission <b>$388.56</b></span><span class="when">Due by Tue 9 Dec</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <section class="section" aria-labelledby="who-h">
+    <div class="wrap">
+      <div class="intro">
+        <h2 class="h2" id="who-h">Everyone touches commission. Nobody enjoys it.</h2>
+        <p>Most small teams still work commission out in a spreadsheet, and most get some of it wrong. Payday Mate gives each person involved one number they can trust.</p>
+      </div>
+      <div class="roles" data-inview>
+        <article class="role"><h3>Sales reps</h3><p class="pain">You closed the deal, then waited until payday to find out what it was worth.</p><p class="fix">See every deal, rate, bonus and clawback the moment it happens, with the maths shown.</p></article>
+        <article class="role"><h3>Managers and owners</h3><p class="pain">Hours each month rebuilding the spreadsheet, then fielding questions about it.</p><p class="fix">Your plan runs the same way every time, with approvals and a record of every change.</p></article>
+        <article class="role"><h3>Payroll</h3><p class="pain">A late spreadsheet, keyed in by hand, with super now due within days.</p><p class="fix">Get clean commission figures for the pay run with super already worked out.</p></article>
+      </div>
+    </div>
+  </section>
+
+  <section class="how" id="how" aria-labelledby="how-h">
+    <div class="how-track">
+      <div class="how-sticky">
+        <div class="wrap">
+          <div>
+            <h2 class="h2" id="how-h">One deal, from closed to paid.</h2>
+            <p class="step-count" aria-hidden="true">Step 1 of 5</p>
+            <ol class="steps">
+              
+              <li class="step active" data-status="Closed won"><h3>Deal closes</h3><p>Jess places a candidate at Harbour Logistics. The deal and its $18,400 fee are recorded against her.</p></li>
+              <li class="step" data-status="Calculated"><h3>Commission works itself out</h3><p>Your plan runs on its own: the rate, the tier, any split. Jess sees $2,208 straight away.</p></li>
+              <li class="step" data-status="Approved"><h3>Manager approves</h3><p>Sam checks the pay run and signs it off. Every change is recorded with who made it.</p></li>
+              <li class="step" data-status="In pay run"><h3>Paid on payday</h3><p>The commission goes into Friday's pay run with nothing keyed in by hand.</p></li>
+              <li class="step" data-status="Super due 9 Dec"><h3>Super lands on time</h3><p>Super on the commission is worked out and dated, so it reaches the fund within 7 business days.</p></li>
+            </ol>
+          </div>
+          <div class="ticket" aria-hidden="true">
+            <div class="tk-head">
+              <div><div class="st-title">Jess Taylor</div><div class="st-sub">Recruitment consultant</div></div>
+              <span class="status">Closed won</span>
+            </div>
+            <ul class="tk-rows">
+              <li class="tk-row show" data-step="0"><span class="k">Deal</span><span class="v">Harbour Logistics placement<small>$18,400 fee</small></span></li>
+              <li class="tk-row hl" data-step="1"><span class="k">Commission</span><span class="v">$2,208.00<small>12% of fee</small></span></li>
+              <li class="tk-row" data-step="2"><span class="k">Approved</span><span class="v">Sam Patel<small>Sales manager</small></span></li>
+              <li class="tk-row" data-step="3"><span class="k">Pay run</span><span class="v">Fri 28 November<small>Sent to payroll</small></span></li>
+              <li class="tk-row hl" data-step="4"><span class="k">Super (12%)</span><span class="v">$264.96<small>In the fund by Tue 9 Dec</small></span></li>
+            </ul>
+            <div class="tk-foot"><div class="meter"><i></i></div><span>Step 1 of 5</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section white" aria-labelledby="super-h">
+    <div class="wrap teaser">
+      <p class="big-seven" aria-hidden="true">7<small>business days to get super into the fund</small></p>
+      <div>
+        <h2 class="h2" id="super-h">Payday Super moved the deadline.</h2>
+        <p class="body-lg">Since 1 July 2026, super is due with every pay run, and that includes commission. Get the figure late or wrong and the super guarantee charge applies.</p>
+        <div class="actions"><a class="btn" href="payday-super.html">Work out your due date</a></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="build-h">
+    <div class="wrap building">
+      <div class="side">
+        <h2 class="h2" id="build-h">What we're building</h2>
+        <p>Made for Australian teams with 5 to 50 people on commission, starting with recruitment agencies and SaaS sales teams.</p>
+      </div>
+      <ul class="features">
+        <li><svg width="22" height="22" viewBox="0 0 22 22" aria-hidden="true"><circle cx="11" cy="11" r="10" fill="#9BE8B0"/><path d="M6.5 11.3l3 3 6-6.3" fill="none" stroke="#0F3D2E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><h3>Your commission plan, set up for you</h3><p>Tiers, splits, thresholds, accelerators and clawbacks. Send us how you pay today and we'll build it in.</p></li>
+        <li><svg width="22" height="22" viewBox="0 0 22 22" aria-hidden="true"><circle cx="11" cy="11" r="10" fill="#9BE8B0"/><path d="M6.5 11.3l3 3 6-6.3" fill="none" stroke="#0F3D2E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><h3>A live earnings view for every rep</h3><p>What each deal paid, what's pending, and how far to the next tier.</p></li>
+        <li><svg width="22" height="22" viewBox="0 0 22 22" aria-hidden="true"><circle cx="11" cy="11" r="10" fill="#9BE8B0"/><path d="M6.5 11.3l3 3 6-6.3" fill="none" stroke="#0F3D2E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><h3>Approvals and a full history</h3><p>Managers sign off each pay run, and every adjustment is recorded with who made it and why.</p></li>
+        <li><svg width="22" height="22" viewBox="0 0 22 22" aria-hidden="true"><circle cx="11" cy="11" r="10" fill="#9BE8B0"/><path d="M6.5 11.3l3 3 6-6.3" fill="none" stroke="#0F3D2E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><h3>Pay run ready, super included</h3><p>Commission totals, super amounts and due dates, ready to hand to payroll.</p></li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="section closing" id="join" aria-labelledby="join-h" data-inview>
+    <div class="wrap closing-grid">
+      <div>
+        <h2 class="h2" id="join-h">Be one of our first teams.</h2>
+        <p class="lede">We're working closely with a small group of Australian sales teams to get Payday Mate right. Join the waitlist and we'll be in touch personally.</p>
+        <form class="waitlist" data-source="closing" novalidate>
+          <label class="visually-hidden" for="email-join">Work email</label>
+          <input id="email-join" type="email" name="email" placeholder="Your work email" autocomplete="email" required>
+          <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" class="visually-hidden" aria-hidden="true">
+          <button class="btn" type="submit">Join the waitlist</button>
+          <p class="form-msg" role="status" aria-live="polite"></p>
+        </form>
+      </div>
+      <div class="monogram" aria-hidden="true">pm<span class="dot"></span></div>
+    </div>
+  </section>
+</main>
+<footer>
+  <div class="wrap foot-grid">
+    <a class="wordmark" href="index.html" aria-label="Payday Mate home">Payday Mate<span class="dot" aria-hidden="true"></span></a>
+    <nav class="foot-links" aria-label="Footer">
+      <a href="index.html#how">How it works</a>
+      <a href="payday-super.html">Payday Super</a>
+      <a href="about.html">About</a>
+      <a href="#join">Join the waitlist</a>
+    </nav>
+    <span>Built in Sydney. &copy; <span id="yr">2026</span> Payday Mate</span>
+  </div>
+</footer>
+<script>
+(function(){
+  /* ===== Waitlist =====
+     Paste your Formspree form ID here (the part after /f/ in your form's endpoint).
+     Example: https://formspree.io/f/xyzabcd  ->  FORMSPREE_ID = 'xyzabcd'          */
+  var FORMSPREE_ID = 'xnpdqoda';
+
+  var doc = document.documentElement;
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function aud(n){ return '$' + n.toLocaleString('en-AU',{minimumFractionDigits:2,maximumFractionDigits:2}); }
+
+  /* ---------- header: solid on scroll, mobile menu ---------- */
+  var head = document.querySelector('.site-head');
+  function onScrollHead(){ if (head) head.classList.toggle('scrolled', window.scrollY > 24); }
+  onScrollHead();
+  window.addEventListener('scroll', onScrollHead, {passive:true});
+  var menuBtn = document.querySelector('.menu-btn');
+  if (menuBtn) {
+    menuBtn.addEventListener('click', function(){
+      var open = doc.classList.toggle('menu-open');
+      menuBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
+      menuBtn.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+    });
+    document.querySelectorAll('.nav a').forEach(function(a){
+      a.addEventListener('click', function(){ doc.classList.remove('menu-open'); menuBtn.setAttribute('aria-expanded','false'); });
+    });
+    document.addEventListener('keydown', function(e){
+      if (e.key === 'Escape' && doc.classList.contains('menu-open')) { doc.classList.remove('menu-open'); menuBtn.setAttribute('aria-expanded','false'); menuBtn.focus(); }
+    });
+  }
+
+  /* ---------- headline reveal (once, on load) ---------- */
+  requestAnimationFrame(function(){
+    document.querySelectorAll('.reveal-lines').forEach(function(el){ el.classList.add('in'); });
+  });
+
+  /* ---------- in-view triggers (used sparingly) ---------- */
+  var ioEls = document.querySelectorAll('[data-inview]');
+  if ('IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(en){ if (en.isIntersecting) { en.target.classList.add('in'); io.unobserve(en.target); } });
+    }, {threshold:0.35});
+    ioEls.forEach(function(el){ io.observe(el); });
+  } else { ioEls.forEach(function(el){ el.classList.add('in'); }); }
+
+  /* ---------- waitlist forms ---------- */
+  var host = location.hostname;
+  var isLive = /(^|\.)paydaymate\.com\.au$/.test(host) || /\.vercel\.app$/.test(host);
+  var configured = FORMSPREE_ID && FORMSPREE_ID !== 'YOUR_FORM_ID';
+  var EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+  var TICK = '<svg width="22" height="22" viewBox="0 0 22 22" aria-hidden="true"><circle cx="11" cy="11" r="10" fill="#9BE8B0"/><path d="M6.5 11.3l3 3 6-6.3" fill="none" stroke="#0F3D2E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+  function success(form){
+    form.classList.add('done');
+    form.innerHTML = '<div class="done-msg" tabindex="-1">' + TICK + '<div><strong>You’re on the list.</strong><span>We’ll be in touch before we open early access.</span></div></div>';
+    var d = form.querySelector('.done-msg'); if (d) d.focus({preventScroll:true});
+  }
+  document.querySelectorAll('form.waitlist').forEach(function(form){
+    form.addEventListener('submit', function(e){
+      e.preventDefault();
+      var input = form.querySelector('input[type=email]');
+      var msg = form.querySelector('.form-msg');
+      var btn = form.querySelector('button');
+      var email = (input.value || '').trim();
+      msg.textContent = ''; msg.className = 'form-msg';
+      if (!EMAIL_RE.test(email)) { msg.textContent = 'Enter an email address like name@company.com.au.'; msg.classList.add('err'); input.focus(); return; }
+      if (form.querySelector('[name=_gotcha]').value) { success(form); return; }
+      if (!isLive) { success(form); return; }              // preview: show the confirmed state, send nothing
+      if (!configured) { msg.textContent = 'Sign-ups aren’t connected yet. Add the Formspree form ID to go live.'; msg.classList.add('err'); return; }
+      btn.disabled = true; btn.textContent = 'Joining…';
+      fetch('https://formspree.io/f/' + FORMSPREE_ID, {
+        method:'POST',
+        headers:{'Accept':'application/json','Content-Type':'application/json'},
+        body: JSON.stringify({email:email, source:(form.dataset.source || '') + ' (' + location.pathname + ')', _subject:'New Payday Mate waitlist sign-up'})
+      }).then(function(r){ if (r.ok) return success(form); throw new Error('bad'); })
+        .catch(function(){ btn.disabled = false; btn.textContent = 'Join the waitlist'; msg.textContent = 'That didn’t go through. Check your connection and try again.'; msg.classList.add('err'); });
+    });
+  });
+
+  /* ---------- home hero statement: one load sequence ---------- */
+  var st = document.getElementById('statement');
+  if (st) {
+    var totalEl = document.getElementById('st-total');
+    requestAnimationFrame(function(){
+      st.classList.add('run');
+      if (reduce) return;
+      var target = 3238, start = null, delay = 1150, dur = 900;
+      totalEl.textContent = aud(0);
+      (function tick(ts){
+        if (ts) { if (!start) start = ts;
+          var p = Math.min(1, Math.max(0, (ts - start - delay) / dur));
+          totalEl.textContent = aud(target * (1 - Math.pow(1 - p, 3)));
+          if (p >= 1) return; }
+        requestAnimationFrame(tick);
+      })();
+    });
+  }
+
+  /* ---------- how a pay run works: scroll-driven ---------- */
+  var how = document.querySelector('.how-track');
+  if (how) {
+    var steps = how.querySelectorAll('.step');
+    var rows = how.querySelectorAll('.tk-row');
+    var status = how.querySelector('.status');
+    var rail = how.querySelector('.steps');
+    var meter = how.querySelector('.meter');
+    var meterLbl = how.querySelector('.tk-foot span');
+    var counter = how.querySelector('.step-count');
+    var N = steps.length, last = -1;
+    var labels = Array.prototype.map.call(steps, function(s){ return s.dataset.status; });
+    function update(){
+      var r = how.getBoundingClientRect();
+      var total = how.offsetHeight - window.innerHeight;
+      var p = Math.min(1, Math.max(0, -r.top / total));
+      var idx = Math.min(N - 1, Math.floor(p * N));
+      rail.style.setProperty('--p', Math.min(1, Math.max(0, (p * N - 0.5) / (N - 1))).toFixed(4));
+      meter.style.setProperty('--p', ((idx + 1) / N).toFixed(3));
+      if (idx === last) return;
+      last = idx;
+      steps.forEach(function(s, i){ s.classList.toggle('active', i === idx); s.classList.toggle('done', i < idx); });
+      rows.forEach(function(row){ row.classList.toggle('show', +row.dataset.step <= idx); });
+      status.textContent = labels[idx];
+      status.classList.toggle('final', idx === N - 1);
+      meterLbl.textContent = 'Step ' + (idx + 1) + ' of ' + N;
+      if (counter) counter.textContent = 'Step ' + (idx + 1) + ' of ' + N;
+    }
+    var ticking = false;
+    window.addEventListener('scroll', function(){ if (!ticking) { ticking = true; requestAnimationFrame(function(){ ticking = false; update(); }); } }, {passive:true});
+    window.addEventListener('resize', update);
+    update();
+  }
+
+  /* ---------- Payday Super calculator ---------- */
+  var payday = document.getElementById('c-payday');
+  if (payday) {
+    var SG_RATE = 0.12;
+    var amount = document.getElementById('c-amount');
+    var dueEl = document.getElementById('c-due'), inEl = document.getElementById('c-in');
+    var supEl = document.getElementById('c-super'), totEl = document.getElementById('c-total');
+    var daysEl = document.getElementById('c-days');
+    var today = new Date(); today.setHours(0,0,0,0);
+    function iso(d){ return d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0'); }
+    function parseISO(s){ var p = s.split('-').map(Number); return new Date(p[0], p[1]-1, p[2]); }
+    // Weekdays only. Whole-state public holidays anywhere in Australia push the deadline later,
+    // so this gives the earliest possible (always safe) due date.
+    function businessDaysAfter(d, n){ var out = [], x = new Date(d); while (out.length < n) { x.setDate(x.getDate()+1); var w = x.getDay(); if (w !== 0 && w !== 6) out.push(new Date(x)); } return out; }
+    var f = new Date(today); f.setDate(today.getDate() + ((5 - today.getDay() + 7) % 7));
+    payday.value = iso(f);
+    var lastKey = '';
+    function render(){
+      var amt = parseFloat(String(amount.value).replace(/[^0-9.]/g,'')) || 0;
+      var sup = Math.round(amt * SG_RATE * 100) / 100;
+      supEl.textContent = aud(sup); totEl.textContent = aud(amt + sup);
+      if (!payday.value) { dueEl.textContent = 'Pick a payday'; inEl.innerHTML = '&nbsp;'; if (daysEl) daysEl.innerHTML = ''; return; }
+      var pd = parseISO(payday.value);
+      var list = businessDaysAfter(pd, 7), due = list[6];
+      dueEl.textContent = due.toLocaleDateString('en-AU',{weekday:'long', day:'numeric', month:'long'});
+      var days = Math.round((due - today) / 86400000), cal = Math.round((due - pd) / 86400000);
+      inEl.textContent = days > 1 ? days + ' days from today, ' + cal + ' calendar days after payday.' : days === 1 ? 'That’s tomorrow.' : days === 0 ? 'That’s today.' : 'That date has already passed.';
+      if (daysEl && payday.value !== lastKey) {
+        lastKey = payday.value;
+        daysEl.innerHTML = list.map(function(d){ return '<span title="' + d.toLocaleDateString('en-AU',{weekday:'long',day:'numeric',month:'long'}) + '">' + d.toLocaleDateString('en-AU',{weekday:'short'}).slice(0,2) + ' ' + d.getDate() + '</span>'; }).join('');
+        var spans = daysEl.querySelectorAll('span');
+        spans.forEach(function(s, i){ setTimeout(function(){ s.classList.add('on'); }, reduce ? 0 : 60 * i); });
+      }
+    }
+    amount.addEventListener('input', render);
+    amount.addEventListener('blur', function(){ var v = parseFloat(String(amount.value).replace(/[^0-9.]/g,'')); if (!isNaN(v)) amount.value = v.toLocaleString('en-AU',{maximumFractionDigits:2}); });
+    payday.addEventListener('input', render);
+    payday.addEventListener('change', render);
+    render();
+  }
+
+  var yr = document.getElementById('yr'); if (yr) yr.textContent = new Date().getFullYear();
+})();
+
+</script>
+</body>
+</html>
